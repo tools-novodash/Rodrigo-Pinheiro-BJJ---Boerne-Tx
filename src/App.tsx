@@ -48,7 +48,7 @@ function LandingPage() {
       <main>
         <Hero onBookClick={() => handleBookClick()} />
         <OurClasses onBookClick={handleOpenWithTag} />
-        <Testimonials />
+        <Testimonials onBookClick={() => handleBookClick()} />
         <HowToStart onBookClick={() => handleBookClick()} />
         <OurSchedule />
         <OurInstructors onBookClick={() => handleBookClick()} />
