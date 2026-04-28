@@ -1,0 +1,58 @@
+import type { Testimonial } from '@/types'
+
+export const testimonials: Testimonial[] = [
+  {
+    id: 't1',
+    name: 'Tim Prestidge',
+    initial: 'T',
+    avatarColor: '#F07C00',
+    rating: 5,
+    timeAgo: '1 year ago',
+    text: 'If you want to start your child of 4 to 5 years in a sport, Brazilian Jiu-Jitsu should be your first option. They even offer classes for parents to join together — it is a true family experience.',
+  },
+  {
+    id: 't2',
+    name: 'Selena Sanchez',
+    initial: 'S',
+    avatarColor: '#2563EB',
+    rating: 5,
+    timeAgo: '1 year ago',
+    text: 'My husband, our 9-year-old son, and I joined in June and all I can say is we love everyone here! Nathy and Riba are incredible instructors and wonderful people in every way. Top-quality training with top-quality people!',
+  },
+  {
+    id: 't3',
+    name: 'Krissa Swift',
+    initial: 'K',
+    avatarColor: '#7C3AED',
+    rating: 5,
+    timeAgo: '8 months ago',
+    text: 'I was intimidated at first, but everyone was welcoming and very friendly. It was super fun and a great experience. Personally, the strong sense of community was what stood out most to me. All the women were very welcoming with this newcomer.',
+  },
+  {
+    id: 't4',
+    name: 'Chance LeStourgeon',
+    initial: 'C',
+    avatarColor: '#059669',
+    rating: 5,
+    timeAgo: '9 months ago',
+    text: 'If you are looking for top-level, international-standard jiu-jitsu, RPBJJ Boerne is the right place. The instructors are incredible and very experienced. If you have children, this is the best academy to bring them to.',
+  },
+  {
+    id: 't5',
+    name: 'Eric Garza',
+    initial: 'E',
+    avatarColor: '#DC2626',
+    rating: 5,
+    timeAgo: '1 year ago',
+    text: 'I traveled for work and joined two evening classes. Professor Ribamar\'s classes (Masters World Champion) were incredible! His wife, Nathiely De Jesus, is also a veterinarian — they are such inspiring people both on and off the mat.',
+  },
+  {
+    id: 't6',
+    name: 'Sophia Almeida',
+    initial: 'S',
+    avatarColor: '#F07C00',
+    rating: 5,
+    timeAgo: '1 year ago',
+    text: 'I moved from Florida specifically to train with Nathy and Riba — they have won many world titles. This academy is more than a community, it is a family. Teammates genuinely care about each other.',
+  },
+]
