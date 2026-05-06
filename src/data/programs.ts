@@ -13,6 +13,7 @@ export const programs: Program[] = [
       'Gi & No-Gi training',
       'Age-appropriate curriculum',
     ],
+    image: '/kids.webp',
     schedule: 'Mon – Fri',
     time: '5:00 – 6:00 PM Daily',
     ctaTag: 'kids',
@@ -23,6 +24,7 @@ export const programs: Program[] = [
     tag: 'All levels welcome',
     description:
       "The place to begin your Jiu-Jitsu journey. No matter your age or fitness level, you'll start to notice physical and mental strength in just a few weeks.",
+    image: '/Beginners.webp',
     bullets: [
       'Zero experience required',
       'Traditional gi training',
@@ -39,6 +41,7 @@ export const programs: Program[] = [
     tag: 'Competition track',
     description:
       'Elite-level instruction led by a world champion team, combining refined techniques, intense sparring, and structured progression. Competition-focused classes are available.',
+    image: '/Advanced.webp',
     bullets: [
       'World champion coaching',
       'Competition preparation',
@@ -55,7 +58,7 @@ export const programs: Program[] = [
     tag: 'Safe & empowering',
     description:
       'A safe and empowering training environment designed to keep women active, positive, and confident. Classes are open to all ages and levels.',
-
+    image: '/Women.webp',
     bullets: [
       'Women-only environment',
       'Self-defense focus',

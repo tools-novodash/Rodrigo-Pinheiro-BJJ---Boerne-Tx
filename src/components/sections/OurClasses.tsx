@@ -7,11 +7,8 @@ interface OurClassesProps {
 }
 
 export function OurClasses({ onBookClick: _onBookClick }: OurClassesProps) {
-  const doubled = [...programs, ...programs]
-
   return (
-    <section id="our-classes" aria-labelledby="classes-heading" className="relative grid-lines"
-    >
+    <section id="our-classes" aria-labelledby="classes-heading" className="relative grid-lines">
       {/* Header — constrained */}
       <div className="mx-auto max-w-[1280px] pt-24 pb-10 px-6 md:px-10">
         <SectionHeader
@@ -20,25 +17,21 @@ export function OurClasses({ onBookClick: _onBookClick }: OurClassesProps) {
           title="OUR CLASSES"
           titleNode={<>OUR <span style={{ color: 'var(--color-accent)' }}>CLASSES</span></>}
         />
-        <p className="text-fluid-sub text-[var(--color-text-secondary)] leading-relaxed whitespace-nowrap -mt-8 mb-4">
+        <p className="text-fluid-sub text-[var(--color-text-secondary)] leading-relaxed -mt-8 mb-4">
           Whether you're a first-timer or a seasoned competitor, we have a class designed for you.
         </p>
       </div>
 
-      {/* Infinite marquee carousel — full viewport width */}
-      <div className="relative overflow-hidden w-full pb-24" aria-label="Programs carousel">
-        {/* Fade edges */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-32 z-10" style={{ background: 'linear-gradient(to right, var(--color-bg), transparent)' }} aria-hidden="true" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-32 z-10" style={{ background: 'linear-gradient(to left, var(--color-bg), transparent)' }} aria-hidden="true" />
-        <div className="carousel-track flex gap-6 w-max">
-          {doubled.map((p, i) => (
+      {/* Cards grid */}
+      <div className="mx-auto max-w-[1280px] pb-24 px-6 md:px-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {programs.map((p) => (
             <article
-              key={`${p.id}-${i}`}
-              aria-hidden={i >= programs.length}
-              className="group shrink-0 w-[320px] md:w-[400px] bg-white border-2 border-black flex flex-col"
+              key={p.id}
+              className="group bg-white border-2 border-black flex flex-col"
             >
               {/* Image */}
-              <div className="relative h-[480px] md:h-[560px] overflow-hidden bg-neutral-200">
+              <div className="relative h-[420px] overflow-hidden bg-neutral-200">
                 {p.image ? (
                   <img
                     src={p.image}
