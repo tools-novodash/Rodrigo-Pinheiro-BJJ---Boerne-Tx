@@ -44,7 +44,7 @@ export function Hero({ onBookClick, className }: HeroProps) {
       id="main-content"
       aria-label="Hero — Start your BJJ journey in Boerne"
       className={cn(
-        'relative min-h-screen flex items-center overflow-hidden bg-[#0D0D0D] pt-[68px]',
+        'relative min-h-screen flex items-center overflow-hidden bg-[#0D0D0D] pt-16 md:pt-20',
         className
       )}
     >
@@ -67,6 +67,9 @@ export function Hero({ onBookClick, className }: HeroProps) {
         style={{ background: 'rgba(0,0,0,0.65)' }}
         aria-hidden="true"
       />
+
+      {/* Grid lines pattern */}
+      <div className="pointer-events-none absolute inset-0 grid-lines-light" aria-hidden="true" />
 
       {/* Accent gradient */}
       <div
@@ -118,15 +121,6 @@ function ArrowRight() {
     <svg width="16" height="16" viewBox="0 0 18 18" fill="none" aria-hidden="true">
       <path d="M3.75 9H14.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
       <path d="M9 3.75L14.25 9 9 14.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
-
-function CheckIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-      <circle cx="7" cy="7" r="7" fill="var(--color-accent)" opacity="0.15" />
-      <path d="M4.5 7L6.5 9L9.5 5.5" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }

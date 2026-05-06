@@ -298,7 +298,7 @@ export function BookingModal({ isOpen, defaultTag, onClose }: BookingModalProps)
               </p>
               <a
                 href="tel:+12108676156"
-                className="inline-flex h-[52px] items-center gap-2 rounded-full bg-[var(--color-accent)] px-7 text-base font-semibold text-white hover:bg-[var(--color-accent-hover)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2"
+                className="inline-flex h-[52px] items-center gap-2 rounded-none bg-[var(--color-accent)] px-7 text-base font-semibold text-white hover:bg-[var(--color-accent-hover)] shadow-[0_8px_30px_rgba(255,106,0,0.35)] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2"
               >
                 Call (210) 867-6156
               </a>

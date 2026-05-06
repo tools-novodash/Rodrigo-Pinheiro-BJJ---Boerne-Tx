@@ -6,62 +6,78 @@ interface OurInstructorsProps {
 
 const instructors = [
   {
-    id: 'riba',
-    name: 'Ribamar (Riba)',
+    id: 'manuel',
+    firstName: 'Manuel',
+    fullName: 'Manuel',
     credential: 'World Champion Masters · Black Belt',
-    bio: null,
   },
   {
     id: 'nathi',
-    name: 'Nathiely De Jesus (Nathi)',
+    firstName: 'Nathiely',
+    fullName: 'Nathiely De Jesus',
     credential: 'World Champion · Black Belt',
-    bio: null,
   },
 ]
 
 export function OurInstructors({ onBookClick }: OurInstructorsProps) {
   return (
     <Section id="our-instructors" aria-labelledby="instructors-heading">
-      <div className="grid gap-12 lg:grid-cols-2 items-center">
+      <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr] items-center">
+
         {/* Text */}
         <div>
           <SectionHeader
             id="instructors-heading"
             label="Meet the Team"
-            title="MEET RIBA AND NATHI, WORLD CHAMPION HEAD COACHES"
+            title="MEET MANUEL AND NATHIELY, WORLD CHAMPION HEAD COACHES"
+            titleNode={<>MEET MANUEL AND NATHIELY, <span style={{ color: 'var(--color-accent)' }}>WORLD CHAMPION HEAD COACHES</span></>}
           />
-
           <p className="text-fluid-body text-[var(--color-text-secondary)] leading-relaxed mb-8 max-w-xl">
-            Both share a story of resilience: they came from Brazil with a dream of conquering the World Championship, but it was not easy. They needed help from many people and Riba even slept on the mats to save money. That journey made both of them world-class instructors who learned how to pursue any goal with discipline. Now, they want to pass that mindset on to their students, no matter the age or level.
+            Both share a story of resilience: they came from Brazil with a dream of conquering the World Championship, but it was not easy. They needed help from many people and Manuel even slept on the mats to save money. That journey made both of them world-class instructors who learned how to pursue any goal with discipline. Now, they want to pass that mindset on to their students, no matter the age or level.
           </p>
-
           <Button onClick={onBookClick} size="lg">
-            Meet them in your first free trial class →
+            Click to meet them in your first free trial class
           </Button>
         </div>
 
-        {/* Instructor cards */}
-        <div className="grid gap-6 sm:grid-cols-2">
-          {instructors.map((coach) => (
-            <article
-              key={coach.id}
-              className="flex flex-col gap-4 rounded-[var(--radius-card)] border border-[var(--color-border)] p-5"
-            >
-              <ImagePlaceholder
-                label={`Photo of ${coach.name}`}
-                aspectRatio="3/4"
-              />
-              <div>
-                <h3 className="text-base font-bold text-[var(--color-text)]" style={{ fontFamily: 'var(--font-display)' }}>
-                  {coach.name}
-                </h3>
-                <p className="text-xs text-[var(--color-accent)] font-semibold mt-0.5">
-                  {coach.credential}
-                </p>
+        {/* Single parent square */}
+        <div className="relative">
+          <div className="relative aspect-square overflow-hidden bg-neutral-100 border-2 border-black shadow-[16px_16px_0_0_#000] flex flex-col">
+
+            {/* Single image filling the card */}
+            <div className="relative flex-1 overflow-hidden bg-neutral-200">
+              <ImagePlaceholder label="Riba & Nathi — Head Coaches" aspectRatio="1/1" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
+
+              {/* Top badge */}
+              <div className="absolute left-4 top-4 bg-white px-2 py-1 text-[10px] font-bold uppercase tracking-widest">
+                Head Coaches
               </div>
-            </article>
-          ))}
+            </div>
+
+          </div>
+
+          {/* Two floating VSL-style cards at the bottom */}
+          <div className="flex gap-4 mt-6">
+            {instructors.map((coach) => (
+              <div
+                key={coach.id}
+                className="flex-1 bg-white border-2 border-black p-4 shadow-[8px_8px_0_0_var(--color-accent)]"
+              >
+                <div className="text-[10px] uppercase tracking-widest text-[var(--color-text-muted)] mb-1">
+                  Championship-level
+                </div>
+                <div className="text-base font-normal uppercase leading-tight" style={{ fontFamily: 'var(--font-display)' }}>
+                  {coach.fullName}
+                </div>
+                <div className="text-xs text-[var(--color-text-secondary)] mt-1">
+                  {coach.credential}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
+
       </div>
     </Section>
   )

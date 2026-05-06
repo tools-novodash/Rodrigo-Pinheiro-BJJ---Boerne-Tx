@@ -26,10 +26,12 @@ export function Section({
       id={id}
       aria-labelledby={ariaLabelledBy}
       className={cn(
+        'relative',
         !noPad && 'py-24',
-        subtle && 'bg-[var(--color-surface-alt)]',
-        accent && 'bg-[var(--color-accent)]',
-        dark && 'bg-[var(--color-text)]',
+        subtle && 'bg-[var(--color-surface-alt)] grid-lines',
+        accent && 'bg-[var(--color-accent)] grid-lines-light',
+        dark && 'bg-[var(--color-text)] grid-lines-light',
+        !subtle && !accent && !dark && 'grid-lines',
         className
       )}
     >

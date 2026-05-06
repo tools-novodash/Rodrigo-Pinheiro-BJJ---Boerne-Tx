@@ -6,13 +6,11 @@ import {
   OurClasses,
   Testimonials,
   HowToStart,
-  OurSchedule,
   OurInstructors,
   MoreOfUs,
   About,
   FAQ,
   Location,
-  FinalCTA,
   StickyCTABar,
 } from '@/components/sections'
 import { BookingModal } from '@/components/sections/BookingModal'
@@ -50,13 +48,11 @@ function LandingPage() {
         <OurClasses onBookClick={handleOpenWithTag} />
         <Testimonials onBookClick={() => handleBookClick()} />
         <HowToStart onBookClick={() => handleBookClick()} />
-        <OurSchedule />
         <OurInstructors onBookClick={() => handleBookClick()} />
         <MoreOfUs />
         <About />
         <FAQ />
         <Location />
-        <FinalCTA onBookClick={() => handleBookClick()} />
       </main>
 
       <Footer onBookClick={() => handleBookClick()} />

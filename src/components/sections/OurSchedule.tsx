@@ -4,7 +4,7 @@ import { scheduleSlots } from '@/data/schedule'
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 const TYPE_COLORS: Record<string, string> = {
   kids:   '#3B82F6',
-  adults: '#F07C00',
+  adults: '#FF6A00',
   women:  '#7C3AED',
   all:    '#059669',
 }

@@ -1,4 +1,5 @@
 export { Button } from './Button'
+export { MagneticButton } from './MagneticButton'
 export { Section } from './Section'
 export { SectionHeader } from './SectionHeader'
 export { Badge } from './Badge'

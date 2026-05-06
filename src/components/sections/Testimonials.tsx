@@ -83,7 +83,7 @@ export function Testimonials({ onBookClick }: Props) {
             className="text-5xl font-black uppercase tracking-tighter text-[var(--color-text)] md:text-6xl"
             style={{ fontFamily: 'var(--font-display)' }}
           >
-            What Our Students<br />Say About Us
+            What Our Students <span style={{ color: 'var(--color-accent)' }}>Say About Us</span>
           </h2>
 
           {/* Google badge */}
@@ -214,7 +214,7 @@ export function Testimonials({ onBookClick }: Props) {
           {onBookClick && (
             <button
               onClick={onBookClick}
-              className="flex items-center gap-2 rounded-full bg-[var(--color-accent)] px-9 py-5 text-sm font-bold uppercase tracking-widest text-white shadow-[var(--shadow-cta)] transition-all hover:scale-105 hover:bg-[var(--color-accent-hover)] active:scale-95"
+              className="flex items-center gap-2 rounded-none bg-[var(--color-accent)] px-9 py-5 text-sm font-bold uppercase tracking-widest text-white shadow-[var(--shadow-cta)] transition-all hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(255,106,0,0.50)] hover:bg-[var(--color-accent-hover)] active:translate-y-0 active:shadow-none"
               style={{ fontFamily: 'var(--font-body)' }}
             >
               Schedule Your Free Trial Class

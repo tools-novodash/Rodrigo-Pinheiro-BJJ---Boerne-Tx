@@ -4,6 +4,7 @@ interface SectionHeaderProps {
   id: string
   label?: string
   title: string
+  titleNode?: React.ReactNode
   subtitle?: string
   center?: boolean
   dark?: boolean
@@ -13,6 +14,7 @@ export function SectionHeader({
   id,
   label,
   title,
+  titleNode,
   subtitle,
   center,
   dark,
@@ -40,17 +42,17 @@ export function SectionHeader({
       <h2
         id={id}
         className={cn(
-          'text-fluid-section uppercase',
+          'text-fluid-section uppercase whitespace-pre-line',
           dark ? 'text-white' : 'text-[var(--color-text)]'
         )}
         style={{ fontFamily: 'var(--font-display)', fontWeight: 700 }}
       >
-        {title}
+        {titleNode ?? title}
       </h2>
       {subtitle && (
         <p
           className={cn(
-            'mt-4 text-fluid-sub max-w-2xl leading-relaxed',
+            'mt-4 text-fluid-sub max-w-2xl leading-relaxed whitespace-pre-line',
             center && 'mx-auto',
             dark ? 'text-white/60' : 'text-[var(--color-text-secondary)]'
           )}

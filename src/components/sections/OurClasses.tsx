@@ -1,4 +1,4 @@
-import { Section, SectionHeader, Button, ImagePlaceholder } from '@/components/ui'
+import { SectionHeader, ImagePlaceholder } from '@/components/ui'
 import { programs } from '@/data/programs'
 import type { ModalTag } from '@/hooks/useModal'
 
@@ -6,85 +6,78 @@ interface OurClassesProps {
   onBookClick: (tag: ModalTag) => void
 }
 
-const iconMap: Record<string, React.ReactNode> = {
-  kids: (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-      <circle cx="12" cy="8" r="3" />
-      <path d="M6 20v-2a6 6 0 0 1 12 0v2" />
-    </svg>
-  ),
-  'adults-beginners': (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-      <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" />
-    </svg>
-  ),
-  'adults-advanced': (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-      <circle cx="12" cy="12" r="10" />
-      <path d="M8 12l3 3 5-5" />
-    </svg>
-  ),
-  women: (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-      <path d="M12 2a5 5 0 1 0 0 10A5 5 0 0 0 12 2zM12 17v5M9 19h6" />
-    </svg>
-  ),
-}
+export function OurClasses({ onBookClick: _onBookClick }: OurClassesProps) {
+  const doubled = [...programs, ...programs]
 
-export function OurClasses({ onBookClick }: OurClassesProps) {
   return (
-    <Section id="our-classes" aria-labelledby="classes-heading">
-      <SectionHeader
-        id="classes-heading"
-        label="Our Classes"
-        title="OUR PROGRAMS"
-        subtitle="Whether you're a first-timer or a seasoned competitor, we have a class designed for you."
-      />
-
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {programs.map((program) => (
-          <article
-            key={program.id}
-            className="card-hover flex flex-col gap-4 rounded-[var(--radius-card)] border border-[var(--color-border)] bg-[var(--color-surface)] p-6"
-          >
-            {/* Icon */}
-            <div
-              className="flex h-12 w-12 items-center justify-center rounded-xl text-[var(--color-accent)]"
-              style={{ background: 'var(--color-accent-subtle)' }}
-            >
-              {iconMap[program.id]}
-            </div>
-
-            {/* Tag */}
-            <span className="inline-flex items-center rounded-full bg-[var(--color-accent-subtle)] px-3 py-1 text-xs font-semibold text-[var(--color-accent)] self-start">
-              {program.tag}
-            </span>
-
-            {/* Content */}
-            <div className="flex flex-col gap-2 flex-1">
-              <h3 className="text-fluid-h3 font-bold text-[var(--color-text)]" style={{ fontFamily: 'var(--font-display)' }}>
-                {program.title}
-              </h3>
-              <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed flex-1">
-                {program.description}
-              </p>
-            </div>
-
-            {/* Image placeholder */}
-            <ImagePlaceholder label={`${program.title} class photo`} aspectRatio="16/9" />
-
-            {/* CTA */}
-            <Button
-              onClick={() => onBookClick(program.ctaTag as ModalTag)}
-              variant="primary"
-              size="sm"
-              className="w-full"
-            >
-              Book Free Trial →
-            </Button>
-          </article>
-        ))}
+    <section id="our-classes" aria-labelledby="classes-heading" className="relative grid-lines"
+    >
+      {/* Header — constrained */}
+      <div className="mx-auto max-w-[1280px] pt-24 pb-10 px-6 md:px-10">
+        <SectionHeader
+          id="classes-heading"
+          label="Training programs"
+          title="OUR CLASSES"
+          titleNode={<>OUR <span style={{ color: 'var(--color-accent)' }}>CLASSES</span></>}
+        />
+        <p className="text-fluid-sub text-[var(--color-text-secondary)] leading-relaxed whitespace-nowrap -mt-8 mb-4">
+          Whether you're a first-timer or a seasoned competitor, we have a class designed for you.
+        </p>
       </div>
-    </Section>
+
+      {/* Infinite marquee carousel — full viewport width */}
+      <div className="relative overflow-hidden w-full pb-24" aria-label="Programs carousel">
+        {/* Fade edges */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-32 z-10" style={{ background: 'linear-gradient(to right, var(--color-bg), transparent)' }} aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-32 z-10" style={{ background: 'linear-gradient(to left, var(--color-bg), transparent)' }} aria-hidden="true" />
+        <div className="carousel-track flex gap-6 w-max">
+          {doubled.map((p, i) => (
+            <article
+              key={`${p.id}-${i}`}
+              aria-hidden={i >= programs.length}
+              className="group shrink-0 w-[320px] md:w-[400px] bg-white border-2 border-black flex flex-col"
+            >
+              {/* Image */}
+              <div className="relative h-[480px] md:h-[560px] overflow-hidden bg-neutral-200">
+                {p.image ? (
+                  <img
+                    src={p.image}
+                    alt={p.title}
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 will-change-transform group-hover:scale-105"
+                  />
+                ) : (
+                  <ImagePlaceholder label={`${p.title} class`} aspectRatio="5/4" />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
+
+                {/* Badge */}
+                <div className="absolute left-4 top-4 bg-white px-2 py-1 text-[10px] font-bold uppercase tracking-widest">
+                  {p.tag}
+                </div>
+
+                {/* Title overlay */}
+                <div className="absolute left-4 bottom-4 right-4">
+                  <div
+                    className="text-5xl md:text-6xl font-black uppercase leading-none text-white drop-shadow-lg"
+                    style={{ fontFamily: 'var(--font-display)' }}
+                  >
+                    {p.title.split(' ')[0]}
+                  </div>
+                  {p.title.split(' ').slice(1).join(' ') && (
+                    <div
+                      className="text-3xl md:text-4xl font-black uppercase leading-none text-white/90 drop-shadow-lg"
+                      style={{ fontFamily: 'var(--font-display)' }}
+                    >
+                      {p.title.split(' ').slice(1).join(' ')}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
   )
 }

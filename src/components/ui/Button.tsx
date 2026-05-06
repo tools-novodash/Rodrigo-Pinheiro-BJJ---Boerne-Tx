@@ -17,21 +17,21 @@ export function Button({
   ...props
 }: ButtonProps) {
   const base =
-    'inline-flex items-center justify-center font-bold rounded-full uppercase tracking-wide transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 cursor-pointer select-none'
+    'inline-flex items-center justify-center font-bold rounded-none uppercase tracking-wide transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 cursor-pointer select-none'
 
   const variants = {
     primary:
-      'bg-[var(--color-accent)] text-white hover:bg-[var(--color-accent-hover)] shadow-[0_4px_20px_rgba(var(--accent-rgb),0.30)] hover:shadow-[0_6px_28px_rgba(var(--accent-rgb),0.45)] hover:scale-[1.02] active:scale-[0.97]',
+      'bg-[var(--color-accent)] text-white hover:bg-[var(--color-accent-hover)] shadow-[0_8px_30px_rgba(var(--accent-rgb),0.35)] hover:shadow-[0_12px_40px_rgba(var(--accent-rgb),0.50)] hover:-translate-y-0.5 active:translate-y-0 active:shadow-none',
     dark:
-      'bg-[var(--color-text)] text-white hover:bg-[#1a1a1a] shadow-[var(--shadow-md)] hover:scale-[1.02] active:scale-[0.97]',
+      'bg-[var(--color-text)] text-white border-2 border-[var(--color-text)] hover:bg-transparent hover:text-[var(--color-text)] active:scale-[0.97]',
     secondary:
       'border-2 border-[var(--color-text)] text-[var(--color-text)] hover:bg-[var(--color-text)] hover:text-white active:scale-[0.97]',
     ghost:
       'text-[var(--color-text-secondary)] border border-[var(--color-border)] hover:bg-[var(--color-surface-alt)] hover:text-[var(--color-text)] hover:border-[var(--color-text)] active:scale-[0.97]',
     white:
-      'bg-white text-[var(--color-accent)] hover:bg-gray-50 hover:scale-[1.02] active:scale-[0.97] shadow-[var(--shadow-md)]',
+      'bg-white text-[var(--color-accent)] border-2 border-white hover:bg-transparent hover:text-white active:scale-[0.97]',
     outline:
-      'border border-white/60 text-white hover:border-white hover:bg-white/10 active:scale-[0.97]',
+      'border-2 border-white/60 text-white hover:border-white hover:bg-white/10 active:scale-[0.97]',
   }
 
   const sizes = {

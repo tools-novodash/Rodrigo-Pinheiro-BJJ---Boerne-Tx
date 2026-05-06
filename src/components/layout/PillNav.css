@@ -1,3 +1,4 @@
+/* ── Container ───────────────────────────────────────────────────── */
 .pill-nav-container {
   position: fixed;
   top: 1rem;
@@ -14,11 +15,10 @@
   }
 }
 
+/* ── Nav bar ─────────────────────────────────────────────────────── */
 .pill-nav {
-  --nav-h: 42px;
-  --logo: 36px;
-  --pill-pad-x: 18px;
-  --pill-gap: 3px;
+  --nav-h:      42px;
+  --logo:       36px;
   width: max-content;
   display: flex;
   align-items: center;
@@ -35,15 +35,7 @@
   }
 }
 
-.pill-nav-items {
-  position: relative;
-  display: flex;
-  align-items: center;
-  height: var(--nav-h);
-  background: var(--base, #0D0D0D);
-  border-radius: 9999px;
-}
-
+/* ── Logo ────────────────────────────────────────────────────────── */
 .pill-logo {
   width: 56px;
   height: 56px;
@@ -64,27 +56,76 @@
   display: block;
 }
 
-.pill-list {
-  list-style: none;
+/* ── Nav items pill container ────────────────────────────────────── */
+.pill-nav-items {
+  position: relative;
   display: flex;
-  align-items: stretch;
-  gap: var(--pill-gap);
-  margin: 0;
-  padding: 3px;
-  height: 100%;
+  align-items: center;
+  height: var(--nav-h);
+  background: var(--base, #0D0D0D);
+  border-radius: 9999px;
+  padding: 4px 4px 4px 4px;
+  gap: 0;
 }
 
-.pill-list > li {
+/* ── Nav links wrapper (holds links + sliding indicator) ─────────── */
+.nav-links-wrapper {
+  position: relative;
   display: flex;
+  align-items: center;
   height: 100%;
+  padding: 0 4px;
 }
 
+/* ── Individual nav links ────────────────────────────────────────── */
+.nav-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 16px;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  z-index: 1;
+  border-radius: 9999px;
+}
+
+.nav-link:hover {
+  color: #fff;
+}
+
+.nav-link.is-active {
+  color: #fff;
+}
+
+/* ── Sliding underline indicator ─────────────────────────────────── */
+.nav-indicator {
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: #FF6A00;
+  border-radius: 0;
+  pointer-events: none;
+  z-index: 2;
+  will-change: transform, width, opacity;
+}
+
+/* ── CTA pill button ─────────────────────────────────────────────── */
 .pill {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  padding: 0 var(--pill-pad-x);
+  height: calc(var(--nav-h) - 8px);
+  padding: 0 18px;
   background: var(--pill-bg, #fff);
   color: var(--pill-text, var(--base, #0D0D0D));
   text-decoration: none;
@@ -92,98 +133,37 @@
   box-sizing: border-box;
   font-weight: 600;
   font-size: 13px;
-  line-height: 0;
+  line-height: 1;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   white-space: nowrap;
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
   border: none;
   font-family: inherit;
+  flex-shrink: 0;
 }
 
-/* ── CTA pill — RPBJJ Orange ── */
 .pill--cta {
-  background: #F07C00;
+  background: #FF6A00;
   color: #fff;
+  transition: background 0.2s ease;
+  margin-right: 2px;
 }
 
-.pill--cta .hover-circle {
-  background: #fff;
+.pill--cta:hover {
+  background: #D95800;
 }
 
-.pill--cta .pill-label-hover {
-  color: #F07C00;
-}
-
-.pill .hover-circle {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  border-radius: 50%;
-  background: var(--base, #0D0D0D);
-  z-index: 1;
-  display: block;
-  pointer-events: none;
-  will-change: transform;
-}
-
-.pill .label-stack {
-  position: relative;
-  display: inline-block;
-  line-height: 1;
-  z-index: 2;
-}
-
-.pill .pill-label {
-  position: relative;
-  z-index: 2;
-  display: inline-block;
-  line-height: 1;
-  will-change: transform;
-}
-
-.pill .pill-label-hover {
-  position: absolute;
-  left: 0;
-  top: 0;
-  color: var(--hover-text, #fff);
-  z-index: 3;
-  display: inline-block;
-  will-change: transform, opacity;
-}
-
-.pill.is-active::after {
-  content: '';
-  position: absolute;
-  bottom: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 12px;
-  height: 12px;
-  background: var(--base, #0D0D0D);
-  border-radius: 50px;
-  z-index: 4;
-}
-
-.desktop-only {
-  display: block;
-}
-
-.mobile-only {
-  display: none;
-}
+/* ── Responsive visibility ───────────────────────────────────────── */
+.desktop-only { display: block; }
+.mobile-only  { display: none;  }
 
 @media (max-width: 768px) {
-  .desktop-only {
-    display: none;
-  }
-  .mobile-only {
-    display: block;
-  }
+  .desktop-only { display: none;  }
+  .mobile-only  { display: block; }
 }
 
+/* ── Hamburger ───────────────────────────────────────────────────── */
 .mobile-menu-button {
   width: var(--nav-h);
   height: var(--nav-h);
@@ -201,9 +181,7 @@
 }
 
 @media (max-width: 768px) {
-  .mobile-menu-button {
-    display: flex;
-  }
+  .mobile-menu-button { display: flex; }
 }
 
 .hamburger-line {
@@ -214,6 +192,7 @@
   transform-origin: center;
 }
 
+/* ── Mobile menu popover ─────────────────────────────────────────── */
 .mobile-menu-popover {
   position: absolute;
   top: 3.25rem;
@@ -240,8 +219,8 @@
 .mobile-menu-popover .mobile-menu-link {
   display: block;
   padding: 12px 18px;
-  color: var(--pill-text, #0D0D0D);
-  background-color: var(--pill-bg, #fff);
+  color: rgba(255, 255, 255, 0.7);
+  background-color: transparent;
   text-decoration: none;
   font-size: 14px;
   font-weight: 600;
@@ -256,13 +235,18 @@
   font-family: inherit;
 }
 
-.mobile-menu-popover .mobile-menu-link:hover {
-  background-color: #F07C00;
+.mobile-menu-popover .mobile-menu-link:hover,
+.mobile-menu-popover .mobile-menu-link.is-active {
+  background-color: rgba(255, 255, 255, 0.08);
   color: #fff;
 }
 
 .mobile-menu-popover .mobile-menu-link--cta {
-  background-color: #F07C00;
+  background-color: #FF6A00;
   color: #fff;
   margin-top: 2px;
+}
+
+.mobile-menu-popover .mobile-menu-link--cta:hover {
+  background-color: #D95800;
 }

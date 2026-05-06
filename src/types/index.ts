@@ -3,6 +3,10 @@ export interface Program {
   title: string
   tag: string
   description: string
+  bullets: string[]
+  schedule: string
+  time: string
+  image?: string
   ctaTag: 'kids' | 'adults-beginners' | 'adults-advanced' | 'women' | 'muay-thai'
 }
 

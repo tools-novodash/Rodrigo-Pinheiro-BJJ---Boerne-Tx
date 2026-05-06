@@ -30,7 +30,6 @@ export default function PillNav({
   logoAlt = 'Logo',
   logoHref = '/',
   items,
-  activeHref = '',
   className = '',
   ease = 'power3.easeOut',
   baseColor = '#000',
@@ -41,93 +40,82 @@ export default function PillNav({
 }: PillNavProps) {
   const resolvedPillTextColor = pillTextColor ?? baseColor
 
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const circleRefs   = useRef<(HTMLSpanElement | null)[]>([])
-  const tlRefs       = useRef<(gsap.core.Timeline | null)[]>([])
-  const activeTweens = useRef<(gsap.core.Tween | null)[]>([])
-  const logoImgRef   = useRef<HTMLImageElement>(null)
-  const logoTweenRef = useRef<gsap.core.Tween | null>(null)
-  const hamburgerRef = useRef<HTMLButtonElement>(null)
+  const [isMobileMenuOpen, setIsMobileMenuOpen]   = useState(false)
+  const [activeHref, setActiveHref]               = useState('')
+
+  const linkRefs      = useRef<(HTMLAnchorElement | null)[]>([])
+  const indicatorRef  = useRef<HTMLSpanElement>(null)
+  const wrapperRef    = useRef<HTMLDivElement>(null)
+  const hamburgerRef  = useRef<HTMLButtonElement>(null)
   const mobileMenuRef = useRef<HTMLDivElement>(null)
-  const navItemsRef  = useRef<HTMLDivElement>(null)
-  const logoRef      = useRef<HTMLAnchorElement>(null)
+  const navItemsRef   = useRef<HTMLDivElement>(null)
+  const logoRef       = useRef<HTMLAnchorElement>(null)
+  const logoImgRef    = useRef<HTMLImageElement>(null)
+  const logoTweenRef  = useRef<gsap.core.Tween | null>(null)
 
+  const navItems = items.filter(item => !item.isCTA)
+  const ctaItem  = items.find(item => item.isCTA)
+
+  /* ── Track active section via IntersectionObserver ── */
   useEffect(() => {
-    const layout = () => {
-      circleRefs.current.forEach((circle, index) => {
-        if (!circle?.parentElement) return
+    const anchors = navItems.filter(item => item.href?.startsWith('#'))
+    if (anchors.length === 0) return
 
-        const pill = circle.parentElement
-        const rect = pill.getBoundingClientRect()
-        const { width: w, height: h } = rect
-        const R = ((w * w) / 4 + h * h) / (2 * h)
-        const D = Math.ceil(2 * R) + 2
-        const delta = Math.ceil(R - Math.sqrt(Math.max(0, R * R - (w * w) / 4))) + 1
-        const originY = D - delta
+    const observers: IntersectionObserver[] = []
 
-        circle.style.width  = `${D}px`
-        circle.style.height = `${D}px`
-        circle.style.bottom = `-${delta}px`
+    anchors.forEach(item => {
+      const el = document.getElementById(item.href!.replace('#', ''))
+      if (!el) return
+      const io = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActiveHref(item.href!) },
+        { threshold: 0.3 }
+      )
+      io.observe(el)
+      observers.push(io)
+    })
 
-        gsap.set(circle, { xPercent: -50, scale: 0, transformOrigin: `50% ${originY}px` })
+    return () => observers.forEach(o => o.disconnect())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-        const label = pill.querySelector<HTMLElement>('.pill-label')
-        const hover = pill.querySelector<HTMLElement>('.pill-label-hover')
+  /* ── Move indicator to a link element ── */
+  function moveIndicatorTo(el: HTMLAnchorElement) {
+    const indicator = indicatorRef.current
+    const wrapper   = wrapperRef.current
+    if (!indicator || !wrapper) return
 
-        if (label) gsap.set(label, { y: 0 })
-        if (hover)  gsap.set(hover, { y: h + 12, opacity: 0 })
+    const rect          = el.getBoundingClientRect()
+    const wrapperRect   = wrapper.getBoundingClientRect()
 
-        tlRefs.current[index]?.kill()
-        const tl = gsap.timeline({ paused: true })
-
-        tl.to(circle, { scale: 1.2, xPercent: -50, duration: 2, ease, overwrite: 'auto' }, 0)
-        if (label) tl.to(label, { y: -(h + 8), duration: 2, ease, overwrite: 'auto' }, 0)
-        if (hover) {
-          gsap.set(hover, { y: Math.ceil(h + 100), opacity: 0 })
-          tl.to(hover, { y: 0, opacity: 1, duration: 2, ease, overwrite: 'auto' }, 0)
-        }
-
-        tlRefs.current[index] = tl
-      })
-    }
-
-    layout()
-    window.addEventListener('resize', layout)
-    document.fonts?.ready.then(layout).catch(() => {})
-
-    const menu = mobileMenuRef.current
-    if (menu) gsap.set(menu, { visibility: 'hidden', opacity: 0 })
-
-    if (initialLoadAnimation) {
-      const logo    = logoRef.current
-      const navItems = navItemsRef.current
-      if (logo) {
-        gsap.set(logo, { scale: 0 })
-        gsap.to(logo, { scale: 1, duration: 0.6, ease })
-      }
-      if (navItems) {
-        gsap.set(navItems, { width: 0, overflow: 'hidden' })
-        gsap.to(navItems, { width: 'auto', duration: 0.6, ease })
-      }
-    }
-
-    return () => window.removeEventListener('resize', layout)
-  }, [items, ease, initialLoadAnimation])
-
-  const handleEnter = (i: number) => {
-    const tl = tlRefs.current[i]
-    if (!tl) return
-    activeTweens.current[i]?.kill()
-    activeTweens.current[i] = tl.tweenTo(tl.duration(), { duration: 0.3, ease, overwrite: 'auto' })
+    gsap.to(indicator, {
+      x:        rect.left - wrapperRect.left,
+      width:    rect.width,
+      opacity:  1,
+      duration: 0.25,
+      ease:     'power2.out',
+    })
   }
 
-  const handleLeave = (i: number) => {
-    const tl = tlRefs.current[i]
-    if (!tl) return
-    activeTweens.current[i]?.kill()
-    activeTweens.current[i] = tl.tweenTo(0, { duration: 0.2, ease, overwrite: 'auto' })
+  /* ── Return to active link (or hide) ── */
+  function returnToActive() {
+    const idx    = navItems.findIndex(item => item.href === activeHref)
+    const activeEl = linkRefs.current[idx]
+    if (activeEl) {
+      moveIndicatorTo(activeEl)
+    } else {
+      gsap.to(indicatorRef.current, { opacity: 0, duration: 0.2 })
+    }
   }
 
+  /* ── Snap indicator to active link whenever activeHref changes ── */
+  useEffect(() => {
+    const idx = navItems.findIndex(item => item.href === activeHref)
+    const el  = linkRefs.current[idx]
+    if (el) moveIndicatorTo(el)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeHref])
+
+  /* ── Logo hover rotation ── */
   const handleLogoEnter = () => {
     const img = logoImgRef.current
     if (!img) return
@@ -136,10 +124,10 @@ export default function PillNav({
     logoTweenRef.current = gsap.to(img, { rotate: 360, duration: 0.5, ease, overwrite: 'auto' })
   }
 
+  /* ── Mobile menu toggle ── */
   const toggleMobileMenu = () => {
-    const next = !isMobileMenuOpen
+    const next      = !isMobileMenuOpen
     setIsMobileMenuOpen(next)
-
     const hamburger = hamburgerRef.current
     const menu      = mobileMenuRef.current
 
@@ -167,11 +155,33 @@ export default function PillNav({
     }
   }
 
+  /* ── Init animations ── */
+  useEffect(() => {
+    const menu = mobileMenuRef.current
+    if (menu) gsap.set(menu, { visibility: 'hidden', opacity: 0 })
+
+    gsap.set(indicatorRef.current, { opacity: 0, x: 0, width: 0 })
+
+    if (initialLoadAnimation) {
+      const logoEl     = logoRef.current
+      const navItemsEl = navItemsRef.current
+      if (logoEl) {
+        gsap.set(logoEl, { scale: 0 })
+        gsap.to(logoEl, { scale: 1, duration: 0.6, ease })
+      }
+      if (navItemsEl) {
+        gsap.set(navItemsEl, { width: 0, overflow: 'hidden' })
+        gsap.to(navItemsEl, { width: 'auto', duration: 0.6, ease })
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const cssVars = {
-    ['--base']: baseColor,
-    ['--pill-bg']: pillColor,
+    ['--base']:       baseColor,
+    ['--pill-bg']:    pillColor,
     ['--hover-text']: hoveredPillTextColor,
-    ['--pill-text']: resolvedPillTextColor,
+    ['--pill-text']:  resolvedPillTextColor,
   } as React.CSSProperties
 
   return (
@@ -189,37 +199,46 @@ export default function PillNav({
           <img src={logo} alt={logoAlt} ref={logoImgRef} />
         </a>
 
-        {/* Desktop pills */}
+        {/* Desktop nav */}
         <div className="pill-nav-items desktop-only" ref={navItemsRef}>
-          <ul className="pill-list" role="menubar">
-            {items.map((item, i) => (
-              <li key={item.href ?? `item-${i}`} role="none">
-                <a
-                  role="menuitem"
-                  href={item.href ?? '#'}
-                  className={[
-                    'pill',
-                    item.isCTA ? 'pill--cta' : '',
-                    activeHref === item.href ? 'is-active' : '',
-                  ].join(' ').trim()}
-                  aria-label={item.ariaLabel ?? item.label}
-                  onClick={item.onClick ? (e) => { e.preventDefault(); item.onClick!() } : undefined}
-                  onMouseEnter={() => handleEnter(i)}
-                  onMouseLeave={() => handleLeave(i)}
-                >
-                  <span
-                    className="hover-circle"
-                    aria-hidden="true"
-                    ref={(el) => { circleRefs.current[i] = el }}
-                  />
-                  <span className="label-stack">
-                    <span className="pill-label">{item.label}</span>
-                    <span className="pill-label-hover" aria-hidden="true">{item.label}</span>
-                  </span>
-                </a>
-              </li>
+
+          {/* Links + sliding indicator */}
+          <div
+            className="nav-links-wrapper"
+            ref={wrapperRef}
+            onMouseLeave={returnToActive}
+          >
+            {navItems.map((item, i) => (
+              <a
+                key={item.href ?? `item-${i}`}
+                ref={el => { linkRefs.current[i] = el }}
+                href={item.href ?? '#'}
+                className={`nav-link${activeHref === item.href ? ' is-active' : ''}`}
+                aria-label={item.ariaLabel ?? item.label}
+                aria-current={activeHref === item.href ? 'page' : undefined}
+                onClick={item.onClick ? (e) => { e.preventDefault(); item.onClick!() } : undefined}
+                onMouseEnter={e => moveIndicatorTo(e.currentTarget)}
+              >
+                {item.label}
+              </a>
             ))}
-          </ul>
+
+            {/* Sliding underline indicator */}
+            <span className="nav-indicator" ref={indicatorRef} aria-hidden="true" />
+          </div>
+
+          {/* CTA button */}
+          {ctaItem && (
+            <button
+              type="button"
+              className="pill pill--cta"
+              onClick={ctaItem.onClick}
+              aria-label={ctaItem.ariaLabel ?? ctaItem.label}
+            >
+              {ctaItem.label}
+            </button>
+          )}
+
         </div>
 
         {/* Hamburger */}
@@ -244,10 +263,10 @@ export default function PillNav({
                 href={item.href ?? '#'}
                 className={[
                   'mobile-menu-link',
-                  item.isCTA ? 'mobile-menu-link--cta' : '',
-                  activeHref === item.href ? 'is-active' : '',
+                  item.isCTA    ? 'mobile-menu-link--cta' : '',
+                  activeHref === item.href ? 'is-active'  : '',
                 ].join(' ').trim()}
-                onClick={(e) => {
+                onClick={e => {
                   if (item.onClick) { e.preventDefault(); item.onClick() }
                   setIsMobileMenuOpen(false)
                 }}
